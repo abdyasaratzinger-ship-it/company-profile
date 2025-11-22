@@ -1,0 +1,8 @@
+<html>
+<head><title>Using List</title></head>
+<body>
+<font size="5">Kuliner makanan Perancis</font><br>
+Anda dapat berkunjung <font size="+1">di daerah Kemang</font> disini merupakan tempat dan waktu yang tepat untuk mencoba
+makanan khas Perancis terutama makanan lokalnya sangat luar biasa enaknya.
+<ul>
+    <li><font color="magenta">Beignetse</font> Donat kecil ditaburi gul
