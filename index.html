@@ -301,26 +301,48 @@
     </div>
 </footer>
 <script>
-    // ⚠️ PASTIKAN URL INI SUDAH BENAR
+    // =========================================================================
+// KODE INI BERJALAN HANYA SETELAH SEMUA ELEMEN HTML DIMUAT
+// INI PENTING UNTUK MENGHINDARI ERROR 'NULL'
+// =========================================================================
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // ⚠️ GANTI DENGAN URL APPS SCRIPT KAMU
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyLnKtvwkGpDAMkjxj6NIePWUXmjNqqatlYlgcp5I5uRa3QTQ04e51XkD9Q4t5Nwp3WAQ/exec"; 
     
+    // -----------------------------------------------------
+    // 1. LOGIKA HAMBURGER MENU
+    // -----------------------------------------------------
+    const toggleButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (toggleButton && navLinks) {
+        toggleButton.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            toggleButton.classList.toggle('is-open');
+        });
+    }
+
+    // -----------------------------------------------------
+    // 2. LOGIKA FORM SUBMIT (AJAX/FETCH)
+    // -----------------------------------------------------
     const form = document.getElementById('contactForm'); 
     const responseDiv = document.getElementById('responseMessage');
 
-    if (form) {
+    if (form && responseDiv) {
         form.addEventListener('submit', async function(e) {
             e.preventDefault(); 
             
             const submitButton = form.querySelector('.submit-btn-new');
             submitButton.disabled = true;
 
-            // Hapus class lama dan siapkan loading
+            // Bersihkan class dan siapkan loading
             responseDiv.classList.remove('message-success', 'message-error');
             responseDiv.innerHTML = 'Sedang mengirim data... mohon tunggu.';
+            responseDiv.style.display = 'block'; 
             
-            // Terapkan style loading minimal (opsional, bisa diatur via CSS .message-loading)
-            responseDiv.style.display = 'block';
-            responseDiv.style.textAlign = 'center';
+            // Tambahkan pemusatan darurat (jika CSS eksternal gagal)
+            responseDiv.style.textAlign = 'center'; 
             responseDiv.style.marginLeft = 'auto'; 
             responseDiv.style.marginRight = 'auto'; 
 
@@ -338,24 +360,16 @@
                 
                 const result = await response.json(); 
 
-                // INI BAGIAN UTAMA YANG MEMASTIKAN TAMPILAN DI TENGAH
                 if (result.result === 'success') {
-                    // Pastikan pemusatan tetap ada saat sukses
-                    responseDiv.style.textAlign = 'center';
-                    
                     responseDiv.classList.add('message-success'); 
                     responseDiv.innerHTML = '✅ Sukses! Data berhasil disimpan.'; 
                     form.reset(); 
                 } else {
-                    responseDiv.style.textAlign = 'center';
-
                     responseDiv.classList.add('message-error');
                     responseDiv.innerHTML = '❌ Gagal mengirim data: ' + result.message;
                 }
 
             } catch (error) {
-                responseDiv.style.textAlign = 'center';
-
                 responseDiv.classList.add('message-error');
                 responseDiv.innerHTML = '❌ Kesalahan Koneksi: ' + error.message;
             } finally {
@@ -363,6 +377,33 @@
             }
         });
     }
+
+    // -----------------------------------------------------
+    // 3. LOGIKA EFEK METEOR (PARTICLES.JS)
+    // -----------------------------------------------------
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 30, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.7, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": false },
+                "move": {
+                    "enable": true,
+                    "speed": 10, // Kecepatan tinggi
+                    "direction": "bottom-left", 
+                    "random": false, 
+                    "straight": true, // Gerakan lurus (meteor)
+                    "out_mode": "out"
+                }
+            },
+            "interactivity": { "events": { "onhover": { "enable": false }, "onclick": { "enable": false } } },
+            "retina_detect": true
+        });
+    }
+});
 </script>
 
 <script>
